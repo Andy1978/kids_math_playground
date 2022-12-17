@@ -18,6 +18,12 @@ function render_triangle (pdf_fn, m)
   l = 5;
 
   for j = 1:rows (m)
+    if (j > 1 && ! mod (j - 1, 6))
+      fprintf (fid, "\\\end{tikzpicture}\n");
+      fprintf (fid, "\\newpage\n");
+      fprintf (fid, "\\begin{tikzpicture}\n");
+      p0(2) = 0;
+    endif
     ms = m(j,:);
     add_triangle (fid, ms, l, p0);
     p0(1) += (l * 1.8);
@@ -27,9 +33,9 @@ function render_triangle (pdf_fn, m)
     endif
   endfor
 
-  fprintf (fid, "\\\end{tikzpicture}\n\\end{document}");  
+  fprintf (fid, "\\\end{tikzpicture}\n\\end{document}");
   fclose (fid);
-  
+
   oldpwd = pwd ();
   cd ("/tmp");
   cmd = sprintf ("pdflatex -interaction=nonstopmode \"%s\" 2>&1", fn);
@@ -60,7 +66,7 @@ function add_triangle (fid, m, l, p0)
 
   p = cumsum (p);
   assert (rows (p), 8);
-  assert (columns (m), 8);
+  assert (columns (m), 7);
 
   for k = 1:7 # Star und 6 Kreise
     if (k == 1)

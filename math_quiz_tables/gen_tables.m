@@ -31,4 +31,9 @@ for k = 1:60
 endfor
 render_stack ("easy_4x4_mul10.pdf", mstack, 2)
 
+mstack = {};
+for k = 1:16
+  append (1, 500, 3, 3, '+');  # Additionen 1:500
+endfor
+render_stack ("medium_3x3_add500.pdf", mstack, 2)
 

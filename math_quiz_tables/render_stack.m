@@ -68,10 +68,10 @@ function render_stack (pdf_fn, m, cols = 3)
   cd ("/tmp");
   cmd = sprintf ("pdflatex -interaction=nonstopmode \"%s\" 2>&1", fn)
   [s, out] = system (cmd);
+  cd (oldpwd);
   if (s)
     error ("Call to '%s' failed with '%s'", cmd, out);
   endif
-  cd (oldpwd);
   movefile ([fn ".pdf"], pdf_fn);
   # fixme: cleanup /tmp
 
