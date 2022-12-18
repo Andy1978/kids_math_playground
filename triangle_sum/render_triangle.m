@@ -1,10 +1,10 @@
 # in m die Werte für den Stern und dann im Uhrzeigersinn beginnend von der Spitze
 function render_triangle (pdf_fn, m)
 
-  fn = tempname ();
+  fn = "foobar"; #tempname ()
   fid = fopen (fn, "w");
   fputs (fid, "\\documentclass[a4paper]{article}\n\
-\\usepackage[inner=2.5cm,outer=1.5cm,top=0.5cm,bottom=0.5cm,includeheadfoot]{geometry}\n\
+\\usepackage[inner=1.5cm,outer=0.5cm,top=0.5cm,bottom=0.5cm,includeheadfoot]{geometry}\n\
 \\usepackage{tikz}\n\
 \\usetikzlibrary{shapes,snakes}\n\
 \\pagenumbering{gobble} % no page numbering\n\
@@ -15,10 +15,12 @@ function render_triangle (pdf_fn, m)
   p0 = [0 0];
 
   # Kantenlänge des Dreiecks
-  l = 5;
+  l = 4.0;
+  n_columns = 3;
+  n_rows = 3;
 
   for j = 1:rows (m)
-    if (j > 1 && ! mod (j - 1, 6))
+    if (j > 1 && ! mod (j - 1, n_columns * n_rows))
       fprintf (fid, "\\\end{tikzpicture}\n");
       fprintf (fid, "\\newpage\n");
       fprintf (fid, "\\begin{tikzpicture}\n");
@@ -26,10 +28,10 @@ function render_triangle (pdf_fn, m)
     endif
     ms = m(j,:);
     add_triangle (fid, ms, l, p0);
-    p0(1) += (l * 1.8);
-    if (! mod (j, 2))
+    p0(1) += (l * 1.55); # Abstand in x
+    if (! mod (j, n_columns))
       p0(1) = 0;
-      p0(2) += (l * 1.8);
+      p0(2) += (l * 2.2); # Abstand in y
     endif
   endfor
 
@@ -37,7 +39,7 @@ function render_triangle (pdf_fn, m)
   fclose (fid);
 
   oldpwd = pwd ();
-  cd ("/tmp");
+  #cd ("/tmp");
   cmd = sprintf ("pdflatex -interaction=nonstopmode \"%s\" 2>&1", fn);
   [s, out] = system (cmd);
   cd (oldpwd);
@@ -56,7 +58,7 @@ function add_triangle (fid, m, l, p0)
 
   # nur Differenzen
   p = [p0(1) p0(2);
-       0, -l/3;
+       0, -0.4 * l;
        s30, -c30;
        s30, -c30;
        -l/2, 0;
