@@ -61,12 +61,13 @@ function render_stack (pdf_fn, m, cols = 3)
 
   endfor
 
-  fprintf (fid, "\\end{document}");  
+  fprintf (fid, "\\end{document}");
   fclose (fid);
-  
+
   oldpwd = pwd ();
   cd ("/tmp");
   cmd = sprintf ("pdflatex -interaction=nonstopmode \"%s\" 2>&1", fn)
+  [s, out] = system (cmd);
   [s, out] = system (cmd);
   cd (oldpwd);
   if (s)

@@ -13,7 +13,7 @@ function m = quiz (minn = 2, maxn = 10, nrows = 3, ncols = 3, t = '*')
     ## Produkte ausrechnen
     m(2:end, 2:end) = m(1, 2:end) .* m(2:end, 1);
   elseif (m(1,1) == '+')
-    m(2:end, 2:end) = m(1, 2:end) .+ m(2:end, 1);
+    m(2:end, 2:end) = m(1, 2:end) + m(2:end, 1);
   endif
 
   m_orig = m;
